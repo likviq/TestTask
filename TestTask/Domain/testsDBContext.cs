@@ -8,6 +8,9 @@ namespace TestTask.Domain
         public testsDBContext(DbContextOptions<testsDBContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Test> Tests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

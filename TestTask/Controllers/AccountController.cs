@@ -50,7 +50,7 @@ namespace TestTask.Controllers
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.IdUser.ToString())
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

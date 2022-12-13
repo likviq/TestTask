@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 using TestTask.Config;
 using TestTask.Domain;
+using TestTask.Interfaces;
+using TestTask.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,11 +27,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 builder.Services.AddDbContext<testsDBContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("testsDB");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+builder.Services.AddScoped<ITestService, TestService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IFillDatabaseService, FillDatabaseService>();
 
 var app = builder.Build();
 
