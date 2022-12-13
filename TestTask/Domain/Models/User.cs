@@ -18,5 +18,6 @@ namespace TestTask.Domain.Models
         [MaxLength(37)]
         [Column(TypeName = "varchar(37)")]
         public string Password { get; set; }
+        public List<Test> Tests { get; set; } = new();
     }
 }
