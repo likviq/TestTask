@@ -43,6 +43,7 @@ builder.Services.AddDbContext<testsDBContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("testsDB");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITestService, TestService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IFillDatabaseService, FillDatabaseService>();
