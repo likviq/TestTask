@@ -5,6 +5,6 @@ namespace TestTask.Interfaces
 {
     public interface IQuestionService
     {
-        Task<List<QuestionInfo>> GetQuestion(int IdTest);
+        Task<List<QuestionInfo>> GetQuestions(int IdTest);
     }
 }
