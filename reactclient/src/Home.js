@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Cookies from 'js-cookie';
+import PopUp from './PopUp';
 
 export class Home extends Component {
 
     constructor(props) {
         super(props);
         //this.intervalID = 0;
-        this.state = { token: "", tests: [] };
+        this.state = { token: "", tests: [], seen: false };
 
         this.getTests = this.getTests.bind(this);
         this.openTest = this.openTest.bind(this);
@@ -43,14 +44,19 @@ export class Home extends Component {
                 const tests_result = await response.text();
                 const tests = JSON.parse(tests_result)
                 this.setState({ tests: tests })
-                console.log(this.state.tests);
 
             }
         }
     }
 
+    togglePop = () => {
+        this.setState({
+          seen: !this.state.seen
+        });
+      };
+
     async openTest(idTest, description) {
-        console.log(description)
+        this.togglePop()
         if (window.confirm(description)) {
             window.location.href = "/test/" + idTest;
         }
@@ -60,6 +66,7 @@ export class Home extends Component {
         const tests = this.state.tests
         return (
             <div>
+                <PopUp />
                 Home page.
                 <div>
                     <ul>
@@ -75,6 +82,7 @@ export class Home extends Component {
                         )}
                     </ul>
                 </div>
+                
             </div>
         )
     }

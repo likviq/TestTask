@@ -27,7 +27,7 @@ export class Test extends Component {
             const tokenObj = JSON.parse(JWTtoken);
             const token = tokenObj.token;
             this.setState({ token: token });
-            console.log(this.state.idTest)
+
             const url = "https://localhost:7033/question/" + id;
 
             const requestOptions = {
@@ -53,11 +53,6 @@ export class Test extends Component {
                 }
 
                 this.setState({ questions: questions, question: questions[0], currentAnswers: questions[0].answers, currentResult: "", resultAnswers: [] })
-                console.log(this.state.questions);
-                console.log(this.state.questions.length);
-                console.log(this.state.questions[this.state.currentQuestion]);
-                console.log(this.state.questions[this.state.currentQuestion].content);
-                console.log(this.state.currentAnswers);
             }
         }
     }
@@ -79,7 +74,6 @@ export class Test extends Component {
             }
         }
         this.setState({ currentQuestion: number })
-        console.log(this.state.resultAnswers);
     }
 
     async CalculateMark() {
@@ -89,7 +83,6 @@ export class Test extends Component {
         answers.forEach((element, index) => {
             answers[index] = String(element);
           });
-        console.log(answers)
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -134,7 +127,7 @@ export class Test extends Component {
                     {this.state.currentAnswers.map((answer, i) =>
                         <div className="radio">
                             <label>
-                                <input type="radio" value={i} name="abc" ref={'ref_' + i} value={answer} onChange={this.handleOptionChange} checked={this.state.currentResult == answer ? true : false} />
+                                <input type="radio" name="abc" ref={'ref_' + i} value={answer} onChange={this.handleOptionChange} checked={this.state.currentResult == answer ? true : false} />
                                 <div>{answer}</div>
 
                             </label>
