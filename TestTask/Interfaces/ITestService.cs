@@ -5,8 +5,7 @@ namespace TestTask.Interfaces
 {
     public interface ITestService
     {
-        Task<Test> GetTest(int idTest);
         Task<List<TestInfo>> GetTests(int idUser);
-        Task<List<User>> GetAll();
+        Task<int> GetMark(int IdTest, List<string> answers);
     }
 }

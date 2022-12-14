@@ -15,7 +15,7 @@ namespace TestTask.Services
             _context = context;
         }
 
-        public async Task<List<QuestionInfo>> GetQuestion(int IdTest)
+        public async Task<List<QuestionInfo>> GetQuestions(int IdTest)
         {
             var questions = await _context.Questions.Include(x => x.Answers).Where(x => x.TestId == IdTest).ToListAsync();
             List<QuestionInfo> questionsInfo = new List<QuestionInfo>();

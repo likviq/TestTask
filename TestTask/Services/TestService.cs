@@ -15,15 +15,6 @@ namespace TestTask.Services
             _context = context;
         }
 
-
-        public async Task<Test> GetTest(int idTest)
-        {
-            var test = await _context.Tests
-                .FirstOrDefaultAsync(x => x.IdTest == idTest);
-            
-            return test;
-        }
-
         public async Task<List<TestInfo>> GetTests(int idUser)
         {
             var user = await _context.Users.Include(x => x.Tests).FirstOrDefaultAsync(x => x.IdUser == idUser);
@@ -31,22 +22,30 @@ namespace TestTask.Services
             List<TestInfo> tests = new List<TestInfo>();
             foreach(Test t in user.Tests)
             {
-                var test = new TestInfo();
-                test.IdTest = t.IdTest;
-                test.Title = t.Title;
-                test.Description = t.Description;
+                var test = new TestInfo(t.IdTest, t.Description, t.Title);
                 tests.Add(test);
             }
 
             return tests;
         }
 
-        public async Task<List<User>> GetAll()
+        public async Task<int> GetMark(int IdTest, List<string> answers)
         {
-            var tests = await _context.Users.Include(x => x.Tests)
-                .ToListAsync();
+            var questions = await _context.Questions.Include(x => x.Answers).Where(x => x.TestId == IdTest).ToListAsync();
+            
+            var mark = 0;
+            for (int i = 0; i<questions.Count; i++)
+            {
+                foreach (var answer in questions[i].Answers)
+                {
+                    if (answer.IsCorrect && answer.Content == answers[i])
+                    {
+                        mark += questions[i].Mark;
+                    }
+                }
+            }
 
-            return tests;
+            return mark;
         }
     }
 }
