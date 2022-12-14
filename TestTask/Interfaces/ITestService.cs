@@ -1,5 +1,4 @@
-﻿using TestTask.Domain.Models;
-using TestTask.Views;
+﻿using TestTask.Views;
 
 namespace TestTask.Interfaces
 {

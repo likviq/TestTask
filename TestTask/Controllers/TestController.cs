@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using TestTask.Models;
 using TestTask.Interfaces;
-using TestTask.Domain.Models;
 using TestTask.Views;
 
 namespace TestTask.Controllers
