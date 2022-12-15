@@ -19,27 +19,46 @@ namespace TestTask.Controllers
 
         [Authorize]
         [Route("/tests")]
-        public async Task<List<TestInfo>> GetTestsAsync()
+        public async Task<IActionResult> GetTestsAsync()
         {
-            var userId = int.Parse(User.Identity.Name);
-            var tests = await _testService.GetTests(userId);
-            return tests;
+            var tokenIdUser = int.Parse(User.Identity.Name);
+
+            var tests = await _testService.GetTests(tokenIdUser);
+
+            if (tests == null)
+            {
+                return NotFound(tokenIdUser);
+            }
+
+            return Ok(tests);
         }
 
         [Authorize]
         [Route("/question/{IdTest}")]
-        public async Task<List<QuestionInfo>> GetQuestions(int IdTest)
+        public async Task<IActionResult> GetQuestions(int IdTest)
         {
             var questions = await _questionService.GetQuestions(IdTest);
-            return questions;
+            
+            if (questions == null)
+            {
+                return NotFound(IdTest);
+            }
+            
+            return Ok(questions);
         }
 
         [Authorize]
         [HttpPost("/mark/{IdTest}")]
-        public async Task<int> GetMark(int IdTest, [FromBody] List<string> answers)
+        public async Task<IActionResult> GetMark(int IdTest, [FromBody] List<string> answers)
         {
             var mark = await _testService.GetMark(IdTest, answers);
-            return mark;
+
+            if (mark == null)
+            {
+                return NotFound(IdTest);
+            }
+
+            return Ok(mark);
         }
     }
 }

@@ -29,16 +29,26 @@ namespace TestTask.Services
             return tests;
         }
 
-        public async Task<int> GetMark(int IdTest, List<string> answers)
+        public async Task<int?> GetMark<T>(int IdTest, List<T> answers)
         {
-            var questions = await _context.Questions.Include(x => x.Answers).Where(x => x.TestId == IdTest).ToListAsync();
+            var test = await _context.Tests.FirstOrDefaultAsync(x => x.IdTest == IdTest);
             
+            if (test == null)
+            {
+                return null;
+            }
+
+            var questions = await _context.Questions
+                .Where(x => x.TestId == test.IdTest)
+                .Include(x => x.Answers)
+                .ToListAsync();
+
             var mark = 0;
             for (int i = 0; i<questions.Count; i++)
             {
                 foreach (var answer in questions[i].Answers)
                 {
-                    if (answer.IsCorrect && answer.Content == answers[i])
+                    if (answer.IsCorrect && answer.Content.Equals(answers[i]))
                     {
                         mark += questions[i].Mark;
                     }
